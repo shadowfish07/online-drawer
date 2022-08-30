@@ -8,14 +8,17 @@ import {
   selectIsDrawingMode,
 } from "../slices/ToolBoxSlice";
 
-function Header() {
+type Props = {
+  canvas: fabric.Canvas | null;
+};
+
+function Header({ canvas }: Props) {
   const dispatch = useAppDispatch();
   const isDrawingMode = useAppSelector(selectIsDrawingMode);
   const isCreatingRectMode = useAppSelector(selectIsCreatingRectMode);
   const selectedItems = useAppSelector(
     (state) => state.drawBoard.selectedItems
   );
-  const canvas = useAppSelector((state) => state.drawBoard.canvas);
   const handleClickDrawingMode = () => {
     dispatch(reverseDrawingMode());
   };
@@ -23,7 +26,7 @@ function Header() {
     dispatch(reverseIsCreatingRectMode());
   };
   const handleDeleteDeletedItems = () => {
-    console.log(selectedItems);
+    if (!canvas) return;
     for (const item of canvas.getActiveObjects()) {
       canvas.remove(item);
     }
