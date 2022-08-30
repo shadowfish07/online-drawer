@@ -1,0 +1,18 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "packages/@online-drawer/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist",
+    "dev": "lerna run dev --stream",
+    "tsc": "lerna run tsc --stream",
+    "watch": "lerna run watch --stream",
+    "preview": "lerna run preview"
+  },
+  "devDependencies": {
+    "lerna": "^5.4.3"
+  }
+}
