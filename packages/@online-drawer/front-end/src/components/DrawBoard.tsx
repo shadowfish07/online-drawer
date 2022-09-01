@@ -7,8 +7,8 @@ import {
   selectIsCreatingRectMode,
   selectIsDrawingMode,
 } from "../slices/ToolBoxSlice";
-import { setSelectedItems } from "../slices/DrawBoardSlice";
 import React from "react";
+import WebSocketProvider from "../websocket";
 
 type Props = {
   canvas: fabric.Canvas | null;
@@ -25,6 +25,7 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
     const isDrawingMode = useRef<boolean>(false);
     const isCreatingRectMode = useRef<boolean>(false);
     const selectedItems = useRef<fabric.Object[]>([]);
+    const syncLock = useRef<boolean>(false);
 
     isDrawingMode.current = useAppSelector(selectIsDrawingMode);
     isCreatingRectMode.current = useAppSelector(selectIsCreatingRectMode);
@@ -33,6 +34,34 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
 
     useEffect(() => {
       if (!canvas) return;
+
+      canvas.on("object:removed", () => {
+        console.log("onRemoved");
+        if (!syncLock.current) WebSocketProvider.send(canvas);
+      });
+
+      canvas.on("object:added", () => {
+        console.log("onAdded");
+        if (!syncLock.current) WebSocketProvider.send(canvas);
+      });
+
+      canvas.on("object:modified", function () {
+        console.log("onModified");
+        WebSocketProvider.send(canvas);
+      });
+
+      WebSocketProvider.addOnMessageCallback((data) => {
+        canvas?.loadFromJSON(
+          data,
+          function () {
+            canvas?.renderAll();
+            syncLock.current = false;
+          },
+          () => {
+            syncLock.current = true;
+          }
+        );
+      });
 
       canvas.on("mouse:down", function (options) {
         if (isCreatingRectMode.current) {
@@ -52,6 +81,7 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
       });
       canvas.on("mouse:up", function (options) {
         if (isCreatingRectMode.current) {
+          if (!syncLock.current) WebSocketProvider.send(canvas);
           setIsCreatingRect(false);
           creatingRect.current = null;
           creatingRectStartPosition.current = null;
@@ -86,6 +116,7 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
           }
 
           canvas?.renderAll();
+          if (!syncLock.current) WebSocketProvider.send(canvas);
         }
       });
 
@@ -98,6 +129,7 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
       updateCanvasContext(canvas);
 
       return () => {
+        WebSocketProvider.clearOnMessageCallBack();
         updateCanvasContext(null);
       };
     }, [canvas]);

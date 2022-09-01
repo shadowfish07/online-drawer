@@ -4,11 +4,13 @@ import Header from "./components/Header";
 import { StyledApp } from "./StyledApp";
 import { fabric } from "fabric";
 import { HEADER_HEIGHT } from "./constants";
+import WebSocketProvider from "./websocket";
 
 function App() {
   const canvasRef = useRef(null);
   const [fabricCanvas, setFabricCanvas] = useState<fabric.Canvas | null>(null);
   const [size, setSize] = useState<[number, number]>([0, 0]);
+  WebSocketProvider.connect("ws://localhost:8080");
 
   useEffect(() => {
     const canvas = new fabric.Canvas(canvasRef.current, {
