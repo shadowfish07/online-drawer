@@ -13,13 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run:
-        echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u shadowfish07 --password-stdin \
-        npm run docker-build \ 
-        docker tag online-drawer/front-end online-drawer/front-end:$(date +%s) \
-        docker tag online-drawer/websocket-server online-drawer/websocket-server:$(date +%s) \ 
-        docker push ghcr.io/shadowfish07/online-drawer/front-end:$(date +%s) \
-        docker push ghcr.io/shadowfish07/online-drawer/websocket-server:$(date +%s) \
+      - name: Login to github docker repository 
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u shadowfish07 --password-stdin
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run:
+          npm run docker-build \ 
+          docker tag online-drawer/front-end online-drawer/front-end:$(date +%s) \
+          docker tag online-drawer/websocket-server online-drawer/websocket-server:$(date +%s) \ 
+          docker push ghcr.io/shadowfish07/online-drawer/front-end:$(date +%s) \
+          docker push ghcr.io/shadowfish07/online-drawer/websocket-server:$(date +%s) \
         
