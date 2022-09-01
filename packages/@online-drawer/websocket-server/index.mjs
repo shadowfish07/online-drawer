@@ -1,6 +1,6 @@
 import { WebSocketServer } from "ws";
 import { nanoid } from "nanoid";
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new WebSocketServer({ port: Number(process.env.PORT) || 8081 });
 import { Blob } from "buffer";
 
 const clientNanoIdMap = new Map();

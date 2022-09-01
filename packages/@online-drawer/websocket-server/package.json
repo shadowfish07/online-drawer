@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker-build": "docker build . -t online-drawer/websocket-server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "nanoid": "^4.0.0",
     "ws": "^8.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.7.14",
+    "nodemon": "^2.0.19"
   }
 }

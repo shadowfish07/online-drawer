@@ -10,7 +10,8 @@
     "dev": "lerna run dev --stream",
     "tsc": "lerna run tsc --stream",
     "watch": "lerna run watch --stream",
-    "preview": "lerna run preview"
+    "preview": "lerna run preview",
+    "docker-build": "lerna run docker-build --stream"
   },
   "devDependencies": {
     "lerna": "^5.4.3"
