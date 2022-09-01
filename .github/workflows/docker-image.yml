@@ -12,14 +12,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Login to github docker repository 
         run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u shadowfish07 --password-stdin
       - uses: actions/checkout@v3
       - name: Build the Docker image
         run: |
           npm run docker-build 
-          docker tag online-drawer/front-end ghcr.io/shadowfish07/online-drawer/front-end:${{ github.ref }}
-          docker tag online-drawer/websocket-server ghcr.io/shadowfish07/online-drawer/websocket-server:${{ github.ref }}
-          docker push ghcr.io/shadowfish07/online-drawer/front-end:${{ github.ref }}
-          docker push ghcr.io/shadowfish07/online-drawer/websocket-server:${{ github.ref }}
+          docker tag online-drawer/front-end ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
+          docker tag online-drawer/websocket-server ghcr.io/shadowfish07/online-drawer/websocket-server:${{ env.RELEASE_VERSION }}
+          docker push ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
+          docker push ghcr.io/shadowfish07/online-drawer/websocket-server:${{ env.RELEASE_VERSION }}
         
