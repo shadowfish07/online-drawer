@@ -29,7 +29,7 @@ jobs:
         with:
           host: ${{ secrets.SERVER_IP }}
           username: githubAction
-          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          password: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
           port: 22
           script: |
             docker pull ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
