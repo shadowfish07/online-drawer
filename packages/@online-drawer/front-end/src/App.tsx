@@ -73,12 +73,10 @@ function App() {
     WebSocketProvider.addOnMessageCallback((data) => {
       const parsedData = JSON.parse(data);
       if (parsedData.type !== "mousePosition") return;
-      if (parsedData.data.username !== usernameRef) {
-        setCoworkerMousePositionMap({
-          ...coworkerMousePositionMap,
-          [parsedData.data.username]: parsedData.data.mousePosition,
-        });
-      }
+      setCoworkerMousePositionMap({
+        ...coworkerMousePositionMap,
+        [parsedData.data.username]: parsedData.data.mousePosition,
+      });
     });
 
     return () => {
