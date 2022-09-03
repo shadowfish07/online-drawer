@@ -37,22 +37,24 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
 
       canvas.on("object:removed", () => {
         console.log("onRemoved");
-        if (!syncLock.current) WebSocketProvider.send(canvas);
+        if (!syncLock.current) WebSocketProvider.sendCanvas(canvas);
       });
 
       canvas.on("object:added", () => {
         console.log("onAdded");
-        if (!syncLock.current) WebSocketProvider.send(canvas);
+        if (!syncLock.current) WebSocketProvider.sendCanvas(canvas);
       });
 
       canvas.on("object:modified", function () {
         console.log("onModified");
-        WebSocketProvider.send(canvas);
+        WebSocketProvider.sendCanvas(canvas);
       });
 
       WebSocketProvider.addOnMessageCallback((data) => {
+        const parsedData = JSON.parse(data);
+        if (parsedData.type !== "canvas") return;
         canvas?.loadFromJSON(
-          data,
+          parsedData.data,
           function () {
             canvas?.renderAll();
             syncLock.current = false;
@@ -81,7 +83,7 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
       });
       canvas.on("mouse:up", function (options) {
         if (isCreatingRectMode.current) {
-          if (!syncLock.current) WebSocketProvider.send(canvas);
+          if (!syncLock.current) WebSocketProvider.sendCanvas(canvas);
           setIsCreatingRect(false);
           creatingRect.current = null;
           creatingRectStartPosition.current = null;
@@ -116,7 +118,7 @@ const DrawBoard = React.forwardRef<HTMLCanvasElement, Props>(
           }
 
           canvas?.renderAll();
-          if (!syncLock.current) WebSocketProvider.send(canvas);
+          if (!syncLock.current) WebSocketProvider.sendCanvas(canvas);
         }
       });
 

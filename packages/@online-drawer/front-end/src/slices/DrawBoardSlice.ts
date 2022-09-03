@@ -1,27 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface DrawBoardState {
-  selectedItems: fabric.Object[];
-}
+interface DrawBoardState {}
 
-const initialState: DrawBoardState = {
-  selectedItems: [],
-};
+const initialState: DrawBoardState = {};
 
 const DrawBoardSlice = createSlice({
   name: "drawBoard",
   initialState,
-  reducers: {
-    setSelectedItems(
-      state,
-      action: PayloadAction<fabric.Object[] | undefined>
-    ) {
-      //@ts-ignore
-      state.selectedItems = action.payload ?? [];
-    },
-  },
+  reducers: {},
 });
 
-export const { setSelectedItems } = DrawBoardSlice.actions;
+export const {} = DrawBoardSlice.actions;
 
 export default DrawBoardSlice.reducer;

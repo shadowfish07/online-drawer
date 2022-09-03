@@ -33,6 +33,20 @@ export default class WebSocketProvider {
     WebSocketProvider.sendMessageCache.push(JSON.stringify(data));
   }
 
+  static sendCanvas(canvasData: fabric.Canvas) {
+    WebSocketProvider.send({
+      type: "canvas",
+      data: canvasData.toJSON(),
+    });
+  }
+
+  static sendMousePosition(mousePosition: [number, number], username: string) {
+    WebSocketProvider.send({
+      type: "mousePosition",
+      data: { username: username, mousePosition },
+    });
+  }
+
   static addOnMessageCallback(callback: (data: string) => void) {
     WebSocketProvider.onMessageCallbacks.push(callback);
   }
