@@ -3,6 +3,7 @@
 一个支持多人同时编辑的画板程序。
 
 😎预览地址：[http://online-drawer.shadowfish0.top/](http://online-drawer.shadowfish0.top/)
+(tips:1.试试鼠标协同效果~2.性能优化尚不佳，服务器带宽有限，比较卡顿)
 
 ---
 
@@ -10,6 +11,7 @@
 
 1. [ ] Readme 在触发 Github Action 后基于 Tag 进行更新
 2. [ ] 添加使用 docker-compose 的构建+部署方式
+3. [ ] 数据同步性能优化
 
 ## dev
 
