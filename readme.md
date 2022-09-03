@@ -91,18 +91,25 @@ map $http_upgrade $connection_upgrade {
     '' close;
 }
 
-## 上面是要添加的代码，注意与server同级
+## 上面是要添加的配置，注意与server同级
 
-server {...}
-```
+server {
+    ...
 
-```
-location /ws {
-    proxy_pass http://127.0.0.1:8081;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_set_header Host $host;
+    location / {
+        ...
+    }
+
+    ## START 要添加的配置，注意与location同级
+    location /ws {
+        proxy_pass http://127.0.0.1:8081;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+        proxy_set_header Host $host;
+    }
+    ## END 要添加的配置
+
+    ...
 }
-
 ```
