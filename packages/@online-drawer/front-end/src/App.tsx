@@ -5,7 +5,6 @@ import { StyledApp } from "./StyledApp";
 import { fabric } from "fabric";
 import { HEADER_HEIGHT } from "./constants";
 import WebSocketProvider from "./websocket";
-import { getWebsocketServerUrl } from "./config";
 import MouseCursor from "./components/MouseCursor";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { setUsername } from "./slices/UserSlice";
@@ -24,7 +23,7 @@ function App() {
   const [coworkerMousePositionMap, setCoworkerMousePositionMap] =
     useState<CoworkerMousePosition>({});
   const dispatch = useAppDispatch();
-  WebSocketProvider.connect(getWebsocketServerUrl());
+  WebSocketProvider.connect(`ws://${window.location.host}/ws`);
 
   useEffect(() => {
     usernameRef.current = usernameSelector;
