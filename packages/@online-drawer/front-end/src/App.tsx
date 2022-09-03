@@ -66,7 +66,7 @@ function App() {
     window.addEventListener("mousemove", handleMouseMove);
 
     if (usernameRef.current === "") {
-      const defaultUsername = "大帅逼";
+      const defaultUsername = "Gabe";
       dispatch(setUsername(defaultUsername));
     }
 
