@@ -27,15 +27,15 @@ jobs:
       - name: Deploy
         uses: appleboy/ssh-action@master
         with:
-            host: ${{ secrets.SERVER_IP }}
-            username: root
-            key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-            port: 22
-            script: |
-              docker pull ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
-              docker pull ghcr.io/shadowfish07/online-drawer/websocket-server:${{ env.RELEASE_VERSION }}
-              docker stop online-drawer-front-end online-drawer-websocket-server
-              docker rm online-drawer-front-end online-drawer-websocket-server
-              docker run -p 8081:8081 -d --name online-drawer-websocket-server --network online-drawer ghcr.io/shadowfish07/online-drawer/websocket-server:${{ env.RELEASE_VERSION }}
-              docker run -p 8080:8080 -d --name online-drawer-front-end --network online-drawer ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            docker pull ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
+            docker pull ghcr.io/shadowfish07/online-drawer/websocket-server:${{ env.RELEASE_VERSION }}
+            docker stop online-drawer-front-end online-drawer-websocket-server
+            docker rm online-drawer-front-end online-drawer-websocket-server
+            docker run -p 8081:8081 -d --name online-drawer-websocket-server --network online-drawer ghcr.io/shadowfish07/online-drawer/websocket-server:${{ env.RELEASE_VERSION }}
+            docker run -p 8080:8080 -d --name online-drawer-front-end --network online-drawer ghcr.io/shadowfish07/online-drawer/front-end:${{ env.RELEASE_VERSION }}
               
