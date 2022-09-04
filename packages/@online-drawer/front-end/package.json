@@ -1,6 +1,6 @@
 {
   "name": "@online-drawer/front-end",
-  "version": "0.0.0",
+  "version": "0.0.7-5",
   "type": "module",
   "scripts": {
     "dev": "vite",
