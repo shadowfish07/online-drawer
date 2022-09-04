@@ -11,7 +11,8 @@
     "tsc": "lerna run tsc --stream",
     "watch": "lerna run watch --stream",
     "preview": "lerna run preview",
-    "docker-build": "lerna run docker-build --stream"
+    "docker-build": "lerna run docker-build --stream",
+    "version-bump": "lerna version --tag-version-prefix=''"
   },
   "devDependencies": {
     "lerna": "^5.4.3"
